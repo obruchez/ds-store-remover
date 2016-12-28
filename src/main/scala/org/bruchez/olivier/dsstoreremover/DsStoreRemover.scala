@@ -1,5 +1,6 @@
 package org.bruchez.olivier.dsstoreremover
 
+import org.apache.commons.io.FileUtils
 import scala.util._
 
 object DsStoreRemover {
@@ -22,13 +23,14 @@ case class DsStoreRemover(arguments: Arguments) {
       file ← allFiles
       if !file.getCanonicalPath.startsWith(trashDirectoryPrefixPath)
       if Files.isMacOsMetadataFile(file)
-      destinationFile = Files.nonExistingFile(arguments.trashDirectory, file.getName)
     } {
+      val destinationFile = Files.nonExistingFile(arguments.trashDirectory, file.getName)
+
       if (arguments.readOnly) {
         println(s"File '${file.getCanonicalPath}' would be moved to '${destinationFile.getCanonicalPath}' (read only)")
       } else {
         println(s"Moving '${file.getCanonicalPath}' to '${destinationFile.getCanonicalPath}'")
-        file.renameTo(destinationFile)
+        FileUtils.moveFile(file, destinationFile)
       }
     }
   }
