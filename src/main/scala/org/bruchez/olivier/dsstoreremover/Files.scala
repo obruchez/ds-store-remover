@@ -1,4 +1,4 @@
-package org.bruchez.olivier
+package org.bruchez.olivier.dsstoreremover
 
 import java.io.File
 import scala.annotation.tailrec
