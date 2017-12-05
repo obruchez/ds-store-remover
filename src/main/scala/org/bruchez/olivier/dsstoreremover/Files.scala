@@ -4,10 +4,17 @@ import java.io.File
 import scala.annotation.tailrec
 
 object Files {
-  def filesInDirectory(directory: File, recursive: Boolean, includeDirectories: Boolean): Seq[File] = {
-    val (directories, files) = Option(directory.listFiles()).fold(Seq[File]())(_.toSeq).partition(_.isDirectory)
+  def filesInDirectory(directory: File,
+                       recursive: Boolean,
+                       includeDirectories: Boolean): Seq[File] = {
+    val (directories, files) =
+      Option(directory.listFiles()).fold(Seq[File]())(_.toSeq).partition(_.isDirectory)
     val subDirectoriesAndFiles =
-      if (recursive) directories.flatMap(filesInDirectory(_, recursive = true, includeDirectories)) else Seq()
+      if (recursive) {
+        directories.flatMap(filesInDirectory(_, recursive = true, includeDirectories))
+      } else {
+        Seq()
+      }
     (if (includeDirectories) directories else Seq()) ++ files ++ subDirectoriesAndFiles
   }
 
@@ -17,7 +24,8 @@ object Files {
     lazy val isDsStoreFile = filename == MacOsDsStoreFilename
 
     lazy val isMetadataFile = filename.startsWith(MacOsMetadataFilePrefix) && {
-      val baseFile = new File(file.getParentFile, filename.substring(MacOsMetadataFilePrefix.length))
+      val baseFile =
+        new File(file.getParentFile, filename.substring(MacOsMetadataFilePrefix.length))
       baseFile.exists()
     }
 

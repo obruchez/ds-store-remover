@@ -16,7 +16,9 @@ object DsStoreRemover {
 
 case class DsStoreRemover(arguments: Arguments) {
   def clean(): Unit = {
-    val allFiles = Files.filesInDirectory(arguments.directoryToClean, recursive = true, includeDirectories = false)
+    val allFiles = Files.filesInDirectory(arguments.directoryToClean,
+                                          recursive = true,
+                                          includeDirectories = false)
     val trashDirectoryPrefixPath = arguments.trashDirectory.getCanonicalPath
 
     for {
@@ -27,7 +29,8 @@ case class DsStoreRemover(arguments: Arguments) {
       val destinationFile = Files.nonExistingFile(arguments.trashDirectory, file.getName)
 
       if (arguments.readOnly) {
-        println(s"File '${file.getCanonicalPath}' would be moved to '${destinationFile.getCanonicalPath}' (read only)")
+        println(
+          s"File '${file.getCanonicalPath}' would be moved to '${destinationFile.getCanonicalPath}' (read only)")
       } else {
         println(s"Moving '${file.getCanonicalPath}' to '${destinationFile.getCanonicalPath}'")
         FileUtils.moveFile(file, destinationFile)
