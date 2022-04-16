@@ -4,9 +4,11 @@ import java.io.File
 import scala.annotation.tailrec
 
 object Files {
-  def filesInDirectory(directory: File,
-                       recursive: Boolean,
-                       includeDirectories: Boolean): Seq[File] = {
+  def filesInDirectory(
+      directory: File,
+      recursive: Boolean,
+      includeDirectories: Boolean
+  ): Seq[File] = {
     val (directories, files) =
       Option(directory.listFiles()).fold(Seq[File]())(_.toSeq).partition(_.isDirectory)
     val subDirectoriesAndFiles =

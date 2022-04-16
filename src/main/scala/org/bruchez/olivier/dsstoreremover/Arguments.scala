@@ -16,8 +16,10 @@ object Arguments {
         case Nil ⇒
           arguments
         case directoryToClean :: trashDirectory :: Nil ⇒
-          arguments.copy(directoryToClean = new File(directoryToClean),
-                         trashDirectory = new File(trashDirectory))
+          arguments.copy(
+            directoryToClean = new File(directoryToClean),
+            trashDirectory = new File(trashDirectory)
+          )
         case argument :: remainingArguments ⇒
           val (newArguments, argumentsToParse) = argument match {
             case ReadOnlyArgument ⇒
